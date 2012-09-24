@@ -17,22 +17,22 @@
         return s;
     }
     function arrayToHtml(array) {
-        var html = '';
+        var html = [];
         for (var i = 0; i < array.length; i++) {
             switch (typeOf(array[i])) {
-                case "string":
-                case "number":
-                    html = html + array[i];
+                case 'string':
+                case 'number':
+                    html.push(array[i]);
                     break;
-                case "object":
-                    html = html + toHtml(array[i]);
+                case 'object':
+                    html.push(toHtml(array[i]));
                     break;
-                case "array":
-                    html = html + arrayToHtml(array[i]);
+                case 'array':
+                    html.push(arrayToHtml(array[i]));
                     break;
             }
         };
-        return html;
+        return html.join('');
     }
     function stringToTag(str) {
         return str.indexOf('_') < 0 ? str
@@ -42,47 +42,47 @@
                 .replace(/_/, '-');
     }
     function objectToHtml(object) {
-        var tag = "",
-            html = "",
-            attributes = "";
+        var tag = '',
+            html = [],
+            attributes = [];
         for (var key in object) {
             if (object.hasOwnProperty(key)) {
                 var value = object[key];
                 switch (typeOf(value)) {
-                    case "array":
+                    case 'array':
                         tag = stringToTag(key);
                         break;
-                    case "string":
-                    case "number":
-                        attributes = attributes + ' ' + stringToTag(key) + '="' + value + '"';
+                    case 'string':
+                    case 'number':
+                        attributes.push(' ', stringToTag(key), '="', value, '"');
                         break;
-                    case "boolean":
-                        attributes = attributes + ' ' + stringToTag(key) + '="' + (value ? 'true' : 'false') + '"';
+                    case 'boolean':
+                        attributes.push(' ', stringToTag(key), '="', (value ? 'true' : 'false'), '"');
                         break;
-                    case "null":
-                        attributes = attributes + ' ' + stringToTag(key);
+                    case 'null':
+                        attributes.push(' ', stringToTag(key));
                         break;
                 }
             }
         }
         if (tag.length > 0) {
-            html = '<' + tag + attributes + '>';
+            html.push('<', tag, attributes.join(''), '>');
             if (object[tag].length > 0) {
-                html = html + arrayToHtml(object[tag]);
+                html.push(arrayToHtml(object[tag]));
             }
             if (!isVoid(tag)) {
-                html = html + '</' + tag + '>';
+                html.push('</', tag, '>');
             }
-            return html;
+            return html.join('');
         }
-        throw new Error("Fail");
+        throw new Error('Fail');
     }
     function toHtml(object) {
         switch (typeOf(object)) {
-            case "object":
+            case 'object':
                 return objectToHtml(object);
                 break;
-            case "array":
+            case 'array':
                 return arrayToHtml(object);
                 break;
             default:
@@ -90,14 +90,13 @@
         };
     }
     var moist = { html: toHtml }
-    if (typeof window !== "undefined") {
+    if (typeof window !== 'undefined') {
         window.Moist = moist;
-    } else {
-        if (typeof exports !== "undefined") {
-            exports.html = toHtml;
-        }
     }
-    if (typeof define === "function" && define.amd) {
+    if (typeof exports !== 'undefined') {
+        exports.html = toHtml;
+    }
+    if (typeof define === 'function' && define.amd) {
         define(function () {
             return moist;
         });
