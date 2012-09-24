@@ -1,4 +1,4 @@
-# MoistJS
+# moist.js
 
 Just a really lightweight way of specifying HTML as JavaScript objects, so you don't get all kinds of messy markup strings inside your JS, and you don't have to manipulate the DOM directly which is slooooow.
 
