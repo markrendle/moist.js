@@ -16,4 +16,4 @@ use this:
 Moist.html({div:[{h1:["Moist!"]}], id: "content"});
 ```
 
-Check out the tests for more info.
+Check out [the tests](https://github.com/markrendle/moist.js/blob/master/test/test.js) for more info.
