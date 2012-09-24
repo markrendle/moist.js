@@ -4,7 +4,7 @@ var moist = require("../moist.js");
 describe("Moist", function() {
     describe("#html(obj)", function() {
 
-        it("should generate a div", function() {
+        it("should generate an empty div", function() {
             assert.equal('<div></div>', moist.html({div: []}));
         });
 
@@ -36,7 +36,7 @@ describe("Moist", function() {
             assert.equal(actual, expected);
         });
 
-        it("should generate two divs", function() {
+        it("should generate two divs from an array", function() {
             var object = [{div:[], _class: "span3"},{div: [], _class: "span9"}],
                 expected = '<div class="span3"></div><div class="span9"></div>',
                 actual = moist.html(object);
@@ -50,7 +50,15 @@ describe("Moist", function() {
             assert.equal(actual, expected);
         });
 
-        it("should generate a div with ng-view", function() {
+        it("should concatenate variables", function() {
+            var name = "Marvin",
+                object = {div: ["Hello ", name, "!"]},
+                expected = '<div>Hello Marvin!</div>',
+                actual = moist.html(object);
+            assert.equal(actual, expected);
+        });
+
+        it("should change underscores to hyphens", function() {
             var object = {div: [], ng_view: null},
                 expected = '<div ng-view></div>',
                 actual = moist.html(object);
