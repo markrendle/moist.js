@@ -1,5 +1,5 @@
-;(function() {
-    var voidTags = ['area','base','br','col','command','embed','hr','img','input','link','meta','param','source'];
+; (function () {
+    var voidTags = ['area', 'base', 'br', 'col', 'command', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source'];
     function isVoid(tag) {
         return voidTags.indexOf(tag.toLowerCase()) > -1;
     }
@@ -89,13 +89,18 @@
                 return object;
         };
     }
-    var moist = {html: toHtml}
+    var moist = { html: toHtml }
     if (typeof window !== "undefined") {
         window.Moist = moist;
     } else {
         if (typeof exports !== "undefined") {
             exports.html = toHtml;
         }
+    }
+    if (typeof define === "function" && define.amd) {
+        define(function () {
+            return moist;
+        });
     }
     return moist;
 })();
